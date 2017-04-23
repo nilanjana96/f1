@@ -1,0 +1,166 @@
+<html>
+  <head> 
+	<title>F1game</title>
+	<style type="text/css">
+	 #F1game{
+	 	border: 1px solid #d3d3d3;
+	 	background-color:#ADFF2F;
+	 	margin-left: 20%;
+	 }
+	</style>
+ </head>
+  <body onload="startGame()">
+  	<div id="position">Score:</div>
+
+  	<canvas id="F1game"width=800px height=600px></canvas>
+  	<script type="text/javascript">
+  	 var track;
+  	 var car;
+  	 var roads;
+  	 var position=0;
+  	
+  	var track;
+  	var track2;
+  	var lines=[];
+  	var lineCount=3;
+  	var c=document.getElementById("F1game");
+var ctx=c.getContext("2d");
+ctx.beginPath();
+ctx.moveTo(20,200);
+ctx.bezierCurveTo(20,100,200,100,200,20);
+ctx.stroke();
+
+ 
+  	 var myGameArea={
+  	 	canvas:document.getElementById("F1game"),
+  	 	start:function(){
+  	 		this.context=this.canvas.getContext("2d");
+  	 		this.interval = setInterval(updateGameArea, 50);
+  	 		this.frameNo=0;
+  	 	},
+  	 	
+  	 	 clear : function() 
+  	 	 {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+         }
+  	 }
+  	   
+  	 var startGame=function(){
+  	 	
+  	 	myGameArea.start();
+  	 	 myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+  	 	 
+  	 	
+  	 	
+  	 	car=new component(100,100,"car1.png",30,450,0,"image");
+  	 	
+  	 	track = new component(150, 800, "#E6E6FA", 20, 0,0); 
+  	 	track2=new component(800, 150, "#E6E6FA",0,20,0);
+  	 	track3=new component(150, 800, "#E6E6FA",620,0,0);
+  	
+  	 
+  	 }
+  	  
+
+  	 
+  	 function updateGameArea()
+  	 {
+  	 	myGameArea.clear();
+  	 	if(car.x>30&&car.x<30&&car.y>450&&car.y<450)
+  	 		{
+  	 			console.log();
+  	 			position++;
+  	 			document.getElementById("position").innerHTML=position;
+  	 		}	
+  	 		
+  	 	
+  	 	
+  	 	track.update();
+  	 	track2.update();
+  	 	track3.update();
+  	 	 
+  	 	car.newPos();
+  	 	car.update();
+
+  	 }
+  	 function moveup()
+    {
+   car.speedY -= 2; 
+    }
+
+    function movedown()
+     {
+    car.speedY += 2; 
+    }
+
+   function moveleft()
+    {
+   car.speedX -= 2;
+    }
+
+   function moveright() 
+   {
+    car.speedX += 2;
+   }
+   function stopMove() {
+   car.speedX= 0;
+   car.speedY = 0; 
+}
+
+  	 function component(width,height,color,x,y,speed,type){
+  	 	this.type=type;
+		 if (type == "image") 
+		 {
+           this.image = new Image();
+           this.image.src = color;
+         }
+		this.width=width;
+		this.height=height;
+		 
+		this.speed=1;
+		this.x=x;
+		this.y=y;
+		this.speedX=0;
+		this.speedY=0;
+		this.speed=speed;
+       
+        this.update=function()
+        {
+         var ctx=myGameArea.context;
+            if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        }
+          if (type == "image")
+           {
+            ctx.drawImage(this.image, 
+            this.x, 
+            this.y,
+            this.width, this.height);
+          }
+           else 
+           {
+          ctx.fillStyle = color;
+          ctx.fillRect(this.x, this.y, this.width, this.height);
+         }
+     }
+
+
+        
+        this.newPos = function()
+        {
+          
+          this.x += this.speedX;
+          this.y += this.speedY; 
+          //this.hitRightEdge();
+        } 
+  	 }
+  	</script>
+  	 <button onmousedown="moveup()" onmouseup="stopMove()" ontouchstart="moveup()">UP</button>
+     <button onmousedown="movedown()" onmouseup="stopMove()" ontouchstart="movedown()">DOWN</button>
+     <button onmousedown="moveleft()" onmouseup="stopMove()" ontouchstart="moveleft()">LEFT</button>
+     <button onmousedown="moveright()" onmouseup="stopMove()" ontouchstart="moveright()">RIGHT</button>
+    
+  </body>
+ </html>
