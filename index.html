@@ -10,25 +10,20 @@
 	</style>
  </head>
   <body onload="startGame()">
-  	<div id="position">Score:</div>
+  
 
   	<canvas id="F1game"width=800px height=600px></canvas>
   	<script type="text/javascript">
   	 var track;
   	 var car;
-  	 var roads;
-  	 var position=0;
+  	 
+  	 var score=0;
   	
   	var track;
   	var track2;
   	var lines=[];
   	var lineCount=3;
-  	var c=document.getElementById("F1game");
-var ctx=c.getContext("2d");
-ctx.beginPath();
-ctx.moveTo(20,200);
-ctx.bezierCurveTo(20,100,200,100,200,20);
-ctx.stroke();
+  	
 
  
   	 var myGameArea={
@@ -66,13 +61,7 @@ ctx.stroke();
   	 function updateGameArea()
   	 {
   	 	myGameArea.clear();
-  	 	if(car.x>30&&car.x<30&&car.y>450&&car.y<450)
-  	 		{
-  	 			console.log();
-  	 			position++;
-  	 			document.getElementById("position").innerHTML=position;
-  	 		}	
-  	 		
+  	 	
   	 	
   	 	
   	 	track.update();
@@ -83,6 +72,27 @@ ctx.stroke();
   	 	car.update();
 
   	 }
+  	 function draw(){
+  	 	drawScore();
+  	 	positionDetection();
+  	 }
+  	 setInterval(draw,2)
+  	 function positionDetection(){
+  	 if(car.speedX>2&&car.speedY>2)
+  	 		{
+  	 			
+  	 			score++;
+
+  	 			
+  	 		}
+  	 }			
+  	 		
+  	 function drawScore() {
+  	 	 var ctx=myGameArea.context;
+    ctx.font = "16px Arial";
+    ctx.fillStyle = "#0095DD";
+    ctx.fillText("Score: "+score, 7, 20);
+}
   	 function moveup()
     {
    car.speedY -= 2; 
@@ -127,11 +137,7 @@ ctx.stroke();
         this.update=function()
         {
          var ctx=myGameArea.context;
-            if (this.type == "text") {
-            ctx.font = this.width + " " + this.height;
-            ctx.fillStyle = color;
-            ctx.fillText(this.text, this.x, this.y);
-        }
+           
           if (type == "image")
            {
             ctx.drawImage(this.image, 
