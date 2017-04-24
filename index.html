@@ -22,7 +22,7 @@
   	var track;
   	var track2;
   	var lines=[];
-  	var lineCount=3;
+  	var lineCount=4;
   	
 
  
@@ -49,15 +49,24 @@
   	 var startGame=function(){
   	 	
   	 	myGameArea.start();
-  	 	 myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+  	 	
+  	 	
   	 	 
   	 	
   	 	
-  	 	car=new component(100,100,"car1.png",30,450,0,"image");
+  	 	car=new component(100,100,"car1.png",340,450,0,"image");
   	 	
-  	 	track = new component(150, 800, "#E6E6FA", 20, 0,0); 
-  	 	track2=new component(800, 150, "#E6E6FA",0,20,0);
-  	 	track3=new component(150, 800, "#E6E6FA",620,0,0);
+  	 	track = new component(180, 800, "#E6E6FA", 320, 0,0); 
+  	 	 for(var i=0;i<lineCount;i++)
+  	 	 {
+  	 	 	
+  	 	 	var RandomSpeed=Math.floor(Math.random()*4+1);
+  	 	 	lines.push(new component(10,80,"black",395,0,RandomSpeed));
+  	 	 	
+
+
+  	 	 }
+  	 	 
   	
   	 
   	 }
@@ -67,12 +76,17 @@
   	 function updateGameArea()
   	 {
   	 	myGameArea.clear();
-  	 	
-  	 	
+  	 
   	 	
   	 	track.update();
-  	 	track2.update();
-  	 	track3.update();
+  	 	for(var i=0;i<lineCount;i++)
+  	 	{
+  	 		lines[i].y=lines[i].speed;
+  	 		lines[i].update();
+
+  	 	}
+  	 	
+  	 	
   	 	 if (myGameArea.key && myGameArea.key == 37) {car.speedX = -1; }
     if (myGameArea.key && myGameArea.key == 39) {car.speedX = 1; }
     if (myGameArea.key && myGameArea.key == 38) {car.speedY = -1; }
@@ -86,9 +100,9 @@
   	 	drawScore();
   	 	positionDetection();
   	 }
-  	 setInterval(draw,2)
+  	 setInterval(draw,1)
   	 function positionDetection(){
-  	 if(car.speedX>2&&car.speedY>2)
+  	 if(car.x>2||car.y>2)
   	 		{
   	 			
   	 			score++;
@@ -137,7 +151,7 @@
 		this.width=width;
 		this.height=height;
 		 
-		this.speed=1;
+		
 		this.x=x;
 		this.y=y;
 		this.speedX=0;
@@ -161,6 +175,12 @@
           ctx.fillRect(this.x, this.y, this.width, this.height);
          }
      }
+     this.hitEdge=function(){
+     	
+     	if(this.x>track.x+track.width||this.x<track.x){
+     		stopMove();
+     	}
+     }
 
 
         
@@ -169,7 +189,8 @@
           
           this.x += this.speedX;
           this.y += this.speedY; 
-          //this.hitRightEdge();
+          this.hitEdge();
+
         } 
   	 }
   	</script>
