@@ -75,7 +75,21 @@
   	 
   	 function updateGameArea()
   	 {
+		  var x,y;
   	 	myGameArea.clear();
+		 for(var i=0;i<lineCount;i++)
+  	 	 {
+			
+  	 	 	x= myGameArea.canvas.width/2;
+  	 	 	y=0;
+  	 	 	var RandomSpeed=Math.floor(Math.random()*4+1);
+  	 	 	lines.push(new component(10,80,"black",x,y,RandomSpeed));
+  	 	 	
+
+
+  	 	 }
+  	 	 
+  	 
   	 
   	 	
   	 	track.update();
